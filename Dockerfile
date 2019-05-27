@@ -14,16 +14,13 @@ RUN apt-get update \
         tcptraceroute \
         g++ \
         unixodbc-dev \
-        tdsodbc \
+        freetds-common freetds-bin freetds-dev \
     && pip install --upgrade pip \
     && pip install subprocess32 \
-    && pip install gunicorn \
+    && pip install gunicorn \ 
     && pip install virtualenv \
     && pip install pyodbc \
-    && pip install flask
-
-RUN apt install unixodbc-bin -y
-RUN apt-get clean -y
+    && pip install flask 
 
 WORKDIR ${HOME_SITE}
 
@@ -45,6 +42,7 @@ RUN mkdir /opt/defaultsite
 COPY hostingstart.html /opt/defaultsite
 COPY application.py /opt/defaultsite
 COPY CRUD_m.py /opt/defaultsite
+ADD odbcinst.ini /etc/
 
 # configure startup
 RUN chmod -R 777 /opt/startup
