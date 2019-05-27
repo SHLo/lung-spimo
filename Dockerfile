@@ -14,12 +14,16 @@ RUN apt-get update \
         tcptraceroute \
         g++ \
         unixodbc-dev \
+        tdsodbc \
     && pip install --upgrade pip \
     && pip install subprocess32 \
-    && pip install gunicorn \ 
+    && pip install gunicorn \
     && pip install virtualenv \
     && pip install pyodbc \
-    && pip install flask 
+    && pip install flask
+
+RUN apt install unixodbc-bin -y
+RUN apt-get clean -y
 
 WORKDIR ${HOME_SITE}
 
