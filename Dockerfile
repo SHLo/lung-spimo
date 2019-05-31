@@ -14,13 +14,17 @@ RUN apt-get update \
         tcptraceroute \
         g++ \
         unixodbc-dev \
+        tdsodbc \
         freetds-common freetds-bin freetds-dev \
     && pip install --upgrade pip \
     && pip install subprocess32 \
-    && pip install gunicorn \ 
+    && pip install gunicorn \
     && pip install virtualenv \
     && pip install pyodbc \
-    && pip install flask 
+    && pip install flask
+
+RUN apt install unixodbc-bin -y
+RUN apt-get clean -y
 
 WORKDIR ${HOME_SITE}
 
@@ -31,7 +35,7 @@ ENV SSH_PORT 2222
 # setup SSH
 RUN mkdir -p /home/LogFiles \
      && echo "root:Docker!" | chpasswd \
-     && echo "cd /home" >> /etc/bash.bashrc 
+     && echo "cd /home" >> /etc/bash.bashrc
 
 COPY sshd_config /etc/ssh/
 RUN mkdir -p /opt/startup
@@ -43,7 +47,6 @@ COPY hostingstart.html /opt/defaultsite
 COPY application.py /opt/defaultsite
 COPY CRUD_m.py /opt/defaultsite
 ADD odbcinst.ini /etc/
-
 # configure startup
 RUN chmod -R 777 /opt/startup
 COPY entrypoint.py /usr/local/bin
