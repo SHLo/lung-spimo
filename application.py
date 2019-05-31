@@ -56,3 +56,4 @@ def return_device():
         data =  {'patient_id': None}
         condition = {'device_id': device_id}
         update_data(table_name, data, condition)
+        return str(1)
