@@ -7,8 +7,8 @@ from CRUD_m import get_connection
 
 app = Flask(__name__)
 
-@app.route("/access_db", methods = ['POST'])
-def access_db():
+@app.route("/paddle_count", methods = ['POST'])
+def paddle_count():
     patient_id = request.json['patient_id']
     device_id = request.json['device_id']
     connection = get_connection()
@@ -17,4 +17,42 @@ def access_db():
     table_name = 'pedal'
     create_data(table_name, data, connection)
     close_connection(connection)
-    return str(patient_id)
+    return str(1)
+
+
+@app.route("/register_device", methods = ['POST'])
+def register_device():
+    patient_id = request.json['patient_id']
+    device_id = request.json['device_id']
+    date_time = datetime.datetime.now()
+    connection = get_connection()
+    table_name = 'dp_pair'
+
+    data = {'device_id':device_id}
+    row = read_data(table_name, data)
+    #scenario 2: No such device_id
+    if row is None:
+        return str(2)
+    #scenario 1: Successful
+    elif row.patient_id is None:
+        return str(1)
+        data =  {'patient_id': patient_id}
+        condition = {'device_id': device_id}
+        update_data(table_name, data, condition)
+    #scenario 2: duplicated id
+    else:
+        return str(0)
+
+@app.route("/return_device", methods = ['POST'])
+def return_device():
+    patient_id = request.json['patient_id']
+    device_id = request.json['device_id']
+    date_time = datetime.datetime.now()
+    row = read_data(table_name, data)
+    # device has been returned
+    if row.patient_id is None:
+        return str(0)
+    else:
+        data =  {'patient_id': None}
+        condition = {'device_id': device_id}
+        update_data(table_name, data, condition)
