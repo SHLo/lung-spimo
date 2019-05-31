@@ -56,30 +56,31 @@ def read_data(table_name, data):
     if len(data)>0:
         sql_query = sql_query + " where 1=1"
         for key, value in data.items():
-            sql_query = sql_query + " and " + key + " = " + "'" +value+ "'"
+            sql_query = f"{sql_query} and {key} = '{value}'"
+            #sql_query = sql_query + " and " + key + " = " + "'" +value+ "'"
     # Execute the sql query
     result = cursor.execute(sql_query)
-    #print('Data Read')
-    # Print the data
-    # for row in result:
-    #     print('row = %r' % (row,))
-    return result
+    row = cursor.fetchone()
 
+    return row
 
-def update_data(table_name, data, condition_id):
+def update_data(table_name, data, condition):
     # Get the sql connection
     value_list = []
     connection = get_connection()
     cursor = connection.cursor()
 
-    sql_query = "Update " + table_name + " Set "
+    #sql_query = "Update " + table_name + " Set "
+    sql_query = f"Update {table_name} Set "
+    # update table set patient_id=null where device_id = xxx
+    # cursor.execute("SELECT * FROM sys.tables")
     if len(data)>0:
         for key in data:
             sql_query = sql_query + key + " = ?, "
         sql_query = sql_query[:-2]
         sql_query = sql_query + " where 1=1"
-    if len(condition_id)>0:
-        for key in condition_id:
+    if len(condition)>0:
+        for key in condition:
             sql_query = sql_query + " and " + key+" =?"
 
     # Execute the update query
