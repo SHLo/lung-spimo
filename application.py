@@ -32,15 +32,18 @@ def register_device():
     row = read_data(table_name, data)
     #scenario 2: No such device_id
     if row is None:
+        close_connection(connection)
         return str(2)
     #scenario 1: Successful
     elif row.patient_id is None:
-        return str(1)
         data =  {'patient_id': patient_id}
         condition = {'device_id': device_id}
         update_data(table_name, data, condition)
+        close_connection(connection)
+        return str(1)
     #scenario 2: duplicated id
     else:
+        close_connection(connection)
         return str(0)
 
 @app.route("/return_device", methods = ['POST'])
@@ -48,13 +51,17 @@ def return_device():
     patient_id = request.json['patient_id']
     device_id = request.json['device_id']
     date_time = datetime.datetime.now()
+    connection = get_connection()
     table_name = 'dp_pair'
+    data = {'device_id':device_id}
     row = read_data(table_name, data)
     # device has been returned
     if row.patient_id is None:
+        close_connection(connection)
         return str(0)
     else:
         data =  {'patient_id': None}
         condition = {'device_id': device_id}
         update_data(table_name, data, condition)
+        close_connection(connection)
         return str(1)
