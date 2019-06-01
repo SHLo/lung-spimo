@@ -86,8 +86,8 @@ def update_data(table_name, data, condition):
     # Execute the update query
     for key in data:
         value_list.append(data[key])
-    for key in condition_id:
-        value_list.append(condition_id[key])
+    for key in condition:
+        value_list.append(condition[key])
 
     cursor.execute(sql_query, value_list)
     connection.commit()
