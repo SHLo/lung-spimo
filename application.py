@@ -78,7 +78,7 @@ def device_start():
     data =  {'start_time': date_time}
     condition = {'device_id': device_id, 'patient_id': patient_id}
     table_name = 'dp_pair'
-    update_data(table_name, data, connection)
+    update_data(table_name, data, condition)
     close_connection(connection)
     return str(1)
 
