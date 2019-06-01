@@ -71,8 +71,8 @@ def return_device():
 
 @app.route('/device_start')
 def device_start():
-    device_id = request.args.get('device_id')
-    patient_id = request.args.get('patient_id')
+    patient_id = request.json['patient_id']
+    device_id = request.json['device_id']
     connection = get_connection()
     date_time = datetime.datetime.now()
     data =  {'start_time': date_time}
@@ -85,8 +85,8 @@ def device_start():
 
 @app.route('/device_refresh')
 def device_refresh():
-    device_id = request.args.get('device_id')
-    patient_id = request.args.get('patient_id')
+    patient_id = request.json['patient_id']
+    device_id = request.json['device_id']
     connection = get_connection()
     table_name = 'dp_pair'
     data = {'device_id':device_id, 'patient_id':patient_id}
