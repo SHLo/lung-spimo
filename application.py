@@ -5,6 +5,7 @@ from CRUD_m import read_data
 from CRUD_m import update_data
 from CRUD_m import close_connection
 from CRUD_m import get_connection
+from CRUD_m import read_count
 
 app = Flask(__name__)
 
@@ -66,3 +67,37 @@ def return_device():
         update_data(table_name, data, condition)
         close_connection(connection)
         return str(1)
+
+
+@app.route('/device_start')
+def device_start():
+    device_id = request.args.get('device_id')
+    patient_id = request.args.get('patient_id')
+    connection = get_connection()
+    date_time = datetime.datetime.now()
+    data =  {'start_time': date_time}
+    condition = {'device_id': device_id, 'patient_id': patient_id}
+    table_name = 'dp_pair'
+    update_data(table_name, data, connection)
+    close_connection(connection)
+    return str(1)
+
+
+@app.route('/device_refresh')
+def device_refresh():
+    device_id = request.args.get('device_id')
+    patient_id = request.args.get('patient_id')
+    connection = get_connection()
+    table_name = 'dp_pair'
+    data = {'device_id':device_id, 'patient_id':patient_id}
+    row = read_data(table_name, data)
+    start_time = row.start_time
+    current_time = datetime.datetime.now()
+    if (device_id[0:3] == 'SPI'):
+        table_name = 'spimo'
+    elif (device_id[0:3] == 'PED'):
+        table_name = 'pedal'
+    row = read_count(table_name, start_time, current_time)
+    result = row.total_count
+    close_connection(connection)
+    return result

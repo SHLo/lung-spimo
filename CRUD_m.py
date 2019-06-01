@@ -92,3 +92,18 @@ def update_data(table_name, data, condition):
     cursor.execute(sql_query, value_list)
     connection.commit()
     print('Data Updated Successfully')
+
+
+def read_count(table_name, start_time, date_time):
+    connection = get_connection()
+    cursor = connection.cursor()
+    start_time = str(start_time)[0:23]
+    print(start_time)
+    date_time = str(date_time)[0:23]
+    print(date_time)
+    sql_query = f"select SUM(best_count) as total_count from {table_name} where time between '{start_time}' and '{date_time}'"
+    print (sql_query)
+    # Execute the sql query
+    result = cursor.execute(sql_query)
+    row = cursor.fetchone()
+    return row
