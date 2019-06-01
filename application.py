@@ -83,10 +83,12 @@ def device_start():
     return str(1)
 
 
-@app.route('/device_refresh', methods = ['POST'])
+@app.route('/device_refresh', methods = ['GET'])
 def device_refresh():
-    patient_id = request.json['patient_id']
-    device_id = request.json['device_id']
+    patient_id = request.args.get('patient_id')
+    print(patient_id)
+    device_id = request.args.get('device_id')
+    print(device_id)
     connection = get_connection()
     table_name = 'dp_pair'
     data = {'device_id':device_id, 'patient_id':patient_id}
