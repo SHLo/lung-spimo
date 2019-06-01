@@ -48,8 +48,8 @@ def return_device():
     patient_id = request.json['patient_id']
     device_id = request.json['device_id']
     date_time = datetime.datetime.now()
-    row = read_data(table_name, data)
     table_name = 'dp_pair'
+    row = read_data(table_name, data)
     # device has been returned
     if row.patient_id is None:
         return str(0)
