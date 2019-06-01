@@ -102,4 +102,4 @@ def device_refresh():
     row = read_count(table_name, start_time, current_time)
     result = row.total_count
     close_connection(connection)
-    return result
+    return str(result)
