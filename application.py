@@ -69,7 +69,7 @@ def return_device():
         return str(1)
 
 
-@app.route('/device_start')
+@app.route('/device_start', methods = ['POST'])
 def device_start():
     patient_id = request.json['patient_id']
     device_id = request.json['device_id']
@@ -83,7 +83,7 @@ def device_start():
     return str(1)
 
 
-@app.route('/device_refresh')
+@app.route('/device_refresh', methods = ['POST'])
 def device_refresh():
     patient_id = request.json['patient_id']
     device_id = request.json['device_id']
