@@ -37,7 +37,7 @@ def register_device():
         return str(2)
     #scenario 1: Successful
     elif row.patient_id is None:
-        data =  {'patient_id': patient_id}
+        data =  {'patient_id': patient_id, 'updated_date': date_time}
         condition = {'device_id': device_id}
         update_data(table_name, data, condition)
         close_connection(connection)
