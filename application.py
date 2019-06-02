@@ -25,12 +25,13 @@ def paddle_count():
 @app.route("/register_device", methods = ['POST'])
 def register_device():
     patient_id = request.json['patient_id']
-    device_id = request.json['device_id']
+    spimo_id = request.json['spimo_id']
+    pedal_id = request.json['pedal_id']
     date_time = datetime.datetime.now()
     connection = get_connection()
     table_name = 'dp_pair'
 
-    data = {'device_id':device_id}
+    data = {'device_id':spimo_id}
     row = read_data(table_name, data)
     #scenario 2: No such device_id
     if row is None:
@@ -39,7 +40,9 @@ def register_device():
     #scenario 1: Successful
     elif row.patient_id is None:
         data =  {'patient_id': patient_id, 'updated_date': date_time}
-        condition = {'device_id': device_id}
+        condition = {'device_id': spimo_id}
+        update_data(table_name, data, condition)
+        condition = {'device_id': pedal_id}
         update_data(table_name, data, condition)
         close_connection(connection)
         return str(1)
