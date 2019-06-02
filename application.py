@@ -66,7 +66,7 @@ def return_device():
         close_connection(connection)
         return str(0)
     else:
-        data =  {'patient_id': None}
+        data =  {'patient_id': None, 'updated_date':None}
         condition = {'device_id': spimo_id}
         update_data(table_name, data, condition)
         condition = {'device_id': pedal_id}
@@ -79,15 +79,12 @@ def return_device():
 @app.route('/device_start', methods = ['POST'])
 def device_start():
     patient_id = request.json['patient_id']
-    spimo_id = request.json['spimo_id']
-    pedal_id = request.json['pedal_id']
+    device_id = request.json['device_id']
     connection = get_connection()
     date_time = datetime.datetime.now()
     data =  {'start_time': date_time}
     table_name = 'dp_pair'
-    condition = {'device_id': spimo_id, 'patient_id': patient_id}
-    update_data(table_name, data, condition)
-    condition = {'device_id': pedal_id, 'patient_id': patient_id}
+    condition = {'device_id': device_id, 'patient_id': patient_id}
     update_data(table_name, data, condition)
 
     close_connection(connection)
