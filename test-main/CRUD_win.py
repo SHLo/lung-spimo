@@ -93,7 +93,7 @@ def update_data(table_name, data, condition):
     print('Data Updated Successfully')
 
 
-def read_count(table_name, start_time, date_time):
+def read_count(table_name, start_time, date_time, device_id):
     # Get the sql connection
     connection = get_connection()
     cursor = connection.cursor()
@@ -101,7 +101,7 @@ def read_count(table_name, start_time, date_time):
     print(start_time)
     date_time = str(date_time)[0:23]
     print(date_time)
-    sql_query = f"select SUM(best_count) as total_count from {table_name} where time between '{start_time}' and '{date_time}'"
+    sql_query = f"select SUM(best_count) as total_count from {table_name} where time between '{start_time}' and '{date_time}' and device_id = '{device_id}'"
     print (sql_query)
     # Execute the sql query
     result = cursor.execute(sql_query)

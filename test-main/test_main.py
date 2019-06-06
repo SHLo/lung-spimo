@@ -29,29 +29,29 @@ if __name__ == '__main__':
     # update_data(table_name, data, condition_id)
 
     # start
-    device_id = 'SPI001'
-    patient_id = 'PAT001'
-    connection = get_connection()
-    date_time = datetime.datetime.now()
-    data =  {'start_time': date_time}
-    condition = {'device_id': device_id, 'patient_id': patient_id}
-    table_name = 'dp_pair'
-    update_data(table_name, data, condition)
-    close_connection(connection)
-    # read_count
     # device_id = 'SPI001'
     # patient_id = 'PAT001'
+    # connection = get_connection()
+    # date_time = datetime.datetime.now()
+    # data =  {'start_time': date_time}
+    # condition = {'device_id': device_id, 'patient_id': patient_id}
     # table_name = 'dp_pair'
-    # data = {'device_id':device_id, 'patient_id':patient_id}
-    # row = read_data(table_name, data)
-    # print (row)
-    # start_time = row.start_time
-    # current_time = datetime.datetime.now()
-    # if (device_id[0:3] == 'SPI'):
-    #     print(device_id[0:3])
-    #     table_name = 'spimo'
-    # elif (device_id[0:3] == 'PED'):
-    #     table_name = 'pedal'
-    # row = read_count(table_name, start_time, current_time)
-    # result = row.total_count
-    # print (result)
+    # update_data(table_name, data, condition)
+    # close_connection(connection)
+    # read_count
+    device_id = 'SPI002'
+    patient_id = 'PAT002'
+    table_name = 'dp_pair'
+    data = {'device_id':device_id, 'patient_id':patient_id}
+    row = read_data(table_name, data)
+    print (row)
+    start_time = row.start_time
+    current_time = datetime.datetime.now()
+    if (device_id[0:3] == 'SPI'):
+        print(device_id[0:3])
+        table_name = 'spimo'
+    elif (device_id[0:3] == 'PED'):
+        table_name = 'pedal'
+    row = read_count(table_name, start_time, current_time, device_id)
+    result = row.total_count
+    print (result)
