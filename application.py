@@ -107,7 +107,7 @@ def device_refresh():
         table_name = 'spimo'
     elif (device_id[0:3] == 'PED'):
         table_name = 'pedal'
-    row = read_count(table_name, start_time, current_time)
+    row = read_count(table_name, start_time, current_time, device_id)
     result = row.total_count
     close_connection(connection)
     return str(result)

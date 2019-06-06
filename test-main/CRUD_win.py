@@ -10,9 +10,8 @@ def get_connection():
     database = 'lung'
     username = 'pi'
     password = 'R@spberry'
-    driver= '{FreeTDS}'
-    TDS_VERSION = 8.0
-    connection = pyodbc.connect('DRIVER={};SERVER={};PORT=1433;DATABASE={};UID={};PWD={};TDS_VERSION={}'.format(driver, server, database, username, password,TDS_VERSION))
+    driver= '{ODBC Driver 13 for SQL Server}'
+    connection = pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password)
     return connection
 
 
@@ -94,14 +93,15 @@ def update_data(table_name, data, condition):
     print('Data Updated Successfully')
 
 
-def read_count(table_name, start_time, date_time, device_id):
+def read_count(table_name, start_time, date_time):
+    # Get the sql connection
     connection = get_connection()
     cursor = connection.cursor()
     start_time = str(start_time)[0:23]
     print(start_time)
     date_time = str(date_time)[0:23]
     print(date_time)
-    sql_query = f"select SUM(count_effective) as total_count from {table_name} where time between '{start_time}' and '{date_time} and device_id = '{device_id}'"
+    sql_query = f"select SUM(best_count) as total_count from {table_name} where time between '{start_time}' and '{date_time}'"
     print (sql_query)
     # Execute the sql query
     result = cursor.execute(sql_query)
